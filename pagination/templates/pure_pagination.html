@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pure_pagination</title>
+    <style type="text/css">
+    * {
+        margin:0; padding:0;text-align: center;
+    }
+    .content{
+        width: 300px;height: 480px;background: #ececec;margin: 0 auto;padding: 0;
+        border-width: 1px;border-color: red;border-style: solid;
+    }
+    .box{
+        width: 50px;height: 50px;background: #0f0;margin: 5px;line-height: 50px;
+        float: left;
+    }
+    .pagelist{
+        position: relative;
+        left: 190px;
+    }
+    .page{
+        background-color: #ececec;margin: 20px 3px; border: thin black solid;padding: 2px; float: left;
+    }
+    .active{
+        background-color: #00ff00;
+    }
+    ul li{
+        list-style: none;
+    }
+    li a{
+        text-decoration: none;
+    }
+    </style>
+</head>
+<body>
+    <div class="content">
+        {% for num in nums.object_list %}
+            <div class="box">
+                {{ num }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="pagelist">
+        <ul>
+            <!--  如果当前页有前一页，则上一页链接有效  -->
+            {% if nums.has_previous %}
+                <li class="page" ><a href="?{{ nums.previous_page_number.querystring }}">上一页</a></li>
+            {% else %}
+                <li class="page">上一页</li>
+            {% endif %}
+            <!-- 取出页码数（页码数不一定就是总页数，有省略显示部分，具体在settings.py配置） -->
+            {% for page in nums.pages %}
+                <!-- 如果page存在，则显示。不存在则省略显示 -->
+                {% if page %}
+                    <!-- 如果该页码是当前页，活跃显示 -->
+                    {% ifequal page nums.number %}
+                        <li class="page active" >{{ page }}</li>
+                    {% else %}
+                        <li class="page" ><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    <li class="page"><a href="">...</a></li>
+                {% endif %}
+            {% endfor %}
+            <!-- 如果当前页有下一页，则下一页链接有效-->
+            {% if nums.has_next %}
+                <li class="page" ><a href="?{{ nums.next_page_number.querystring }}">下一页</a></li>
+            {% else %}
+                <li class="page">下一页</li>
+            {% endif %}
+        </ul>
+    </div>
+</body>
