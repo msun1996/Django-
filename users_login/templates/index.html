@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主界面-用户状态显示</title>
+    <style type="text/css">
+        body{
+            margin: 0;padding: 0;
+        }
+        .header{
+            width: 100%;height: 50px;background: #ececec;line-height: 50px;
+        }
+        .user_status{
+            width: 200px;height: 50px;float: right;background: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        {% if request.user.is_authenticated %}<!-- 判断用户处于登录状态 -->
+            在线状态
+            <div class="user_status">
+                <a href="">用户中心</a>
+                <a href="{% url 'user:logout' %}">退出</a>
+            </div>
+        {% else %}
+            未登录状态
+            <div class="user_status">
+                <a href="{% url 'user:login' %}">登录</a>
+                <a href="{% url 'user:register_mail' %}">注册</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

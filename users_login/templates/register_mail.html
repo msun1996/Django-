@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>邮箱注册页面</title>
+    <style type="text/css">
+        body{
+            margin: 0;padding: 0;
+        }
+        .user_box{
+            width: 222px;  height: 220px; padding: 30px;border: black 1px solid;position: fixed;left: 500px;top: 200px;
+        }
+        .error_input{
+            border: solid 1px #f00;
+        }
+    </style>
+</head>
+<body>
+    <div class="user_box">
+        <form action="{% url 'user:register_mail' %}" method="post">
+            {% csrf_token %}
+            <div class="{% if register_email_form.username.errors %}error_input{% endif %}">
+                用&nbsp;&nbsp;户
+                <input type="text" name="username" value="{{ register_email_form.username.value }}" placeholder="邮箱">
+            </div>
+            <div class="{% if register_email_form.password1.errors %}error_input{% endif %}">
+                密&nbsp;&nbsp;码
+                <input type="password" name="password1" value="{{ register_email_form.password1.value }}" placeholder="请输入您的密码">
+            </div>
+            <div class="{% if register_email_form.password2.errors %}error_input{% endif %}">
+                密&nbsp;&nbsp;码
+                <input type="password" name="password2" value="{{ register_email_form.password2.value }}" placeholder="请再次输入您的密码">
+            </div>
+            <div class="{% if register_email_form.captcha.errors %}error_input{% endif %}">
+                {{ register_email_form.captcha }}
+            </div>
+            <input type="submit" value="注册">
+            <div><!-- 注册表单错误反馈 -->
+                {% for key,error in register_email_form.errors.items %}{{ error }}{% endfor %}{{ msg }}
+            </div>
+            <div>
+                已有帐号？<a href="">登录</a>
+                或使用<a href="">手机注册</a>
+            </div>
+            <div>
+                <a href="{% url 'index' %}">回到首页</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    <style type="text/css">
+        body{
+            margin: 0;padding: 0;
+        }
+        .user_box{
+            width: 222px;  height: 220px; padding: 30px;border: black 1px solid;position: fixed;left: 500px;top: 200px;
+        }
+        .error_input{
+            border: solid 1px #f00;
+        }
+    </style>
+</head>
+<body>
+    <div class="user_box">
+        <form action="{% url 'user:login' %}" method="post">
+            {% csrf_token %}
+            <div class="{% if login_form.username.errors %}error_input{% endif %}">
+                用&nbsp;&nbsp;户
+                <input type="text" name="username" value="{{ login_form.username.value }}" placeholder="手机/邮箱">
+            </div>
+            <div class="{% if login_form.password.errors %}error_input{% endif %}">
+                密&nbsp;&nbsp;码
+                <input type="password" name="password" value="{{ login_form.password.value }}" placeholder="请输入您的密码">
+            </div>
+            <div class="{% if login_form.captcha.errors %}error_input{% endif %}">
+                验证码{{ login_form.captcha }}
+            </div>
+            <input type="submit" value="登录">
+            <div>
+                {% for key,error in login_form.errors.items %}{{ error }}{% endfor %}
+            </div>
+            <div>
+                没有帐号？<a href="{% url 'user:register_mail' %}">注册</a>
+            </div>
+            <div>
+                <a href="{% url 'index' %}">返回首页</a>
+            </div>
+            <div>
+                {{ msg }}
+            </div>
+        </form>
+    </div>
+</body>
+</html>
